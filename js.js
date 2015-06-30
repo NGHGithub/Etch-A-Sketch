@@ -1,7 +1,5 @@
 $(document).ready(function() {
-
     generateNewGrid(50);
-
 });
 
 $(window).resize(function() {
@@ -23,19 +21,19 @@ function generateNewGrid(dimensions) {
         }
     }
 
-    $('.row').css("height", parseInt($containerDiv.height()) / dimensions + "px");
+    $('.row').css("height", 100 / dimensions + "%");
     $('.grid').css('width', 100 / dimensions + "%");
 
+    $('.grid').unbind('mouseenter');
     $('.grid').mouseenter(function () {
-        $(this).addClass('colored');
+        if($(this).css('background-color') );
+        $(this).addClass('black');
     });
 
 }
 
-function newGridClick() {
+function resizeGrid() {
     var dimensions = parseInt(prompt("What would you like the dimensions of the new grid to be\n(e.g. For a 64x64 grid type 64)"));
-
-    console.log(dimensions);
 
     if(isNaN(dimensions) || dimensions < 0) {
         alert("Invalid input, new grid cannot be created");
@@ -46,14 +44,61 @@ function newGridClick() {
     }
 }
 
-function sizeAndPositionGrid(grid) {
+function resetGrid() {
+    generateNewGrid(50);
+}
+
+function rainbow() {
+    $('.grid').unbind('mouseenter');
+
+    $('.grid').mouseenter(function () {
+        var r = parseInt(Math.random() * 256);
+        var g = parseInt(Math.random() * 256);
+        var b = parseInt(Math.random() * 256);
+        if(!($(this).hasClass("black")) && !($(this).hasClass("faded"))) {
+            $(this).css('background-color', 'rgb(' + r + ', ' + g + ', ' + b + ')');
+        }
+    });
+}
+
+function black() {
+    $('.grid').unbind('mouseenter');
+    $('.grid').mouseenter(function () {
+         $(this).addClass('black');
+    });
+}
+
+function faded() {
+    $('.grid').unbind('mouseenter');
+    $('.grid').mouseenter(function () {
+        if($(this).hasClass("faded")) {
+            var newAlpha = parseFloat($(this).attr("alpha")) + .1;
+            $(this).attr('alpha', newAlpha);
+            $(this).css('background-color', 'rgba(0, 0, 0, ' + newAlpha + ')');
+        }
+        else if(!($(this).hasClass("black")) && !($(this).hasClass("rainbow"))) {
+            $(this).addClass("faded");
+            $(this).css('background-color', 'rgba(0, 0, 0, .1)');
+            $(this).attr('alpha', '.1');
+        }
+    });
+}
+
+function eraser() {
+    $('.grid').unbind('mouseenter');
+    $('.grid').mouseenter(function () {
+         $(this).removeClass('colored');
+         $(this).css('background-color', '');
+    });
+}
+
+function sizeAndPositionGrid($grid) {
     var $etchasketch = $('img');
     var $etchasketchPosition = $etchasketch.offset();
 
-
-    grid.css("height", $etchasketch.css("height"));
-    grid.css("width", $etchasketch.css("width"));
-    grid.css("top", $etchasketchPosition.top + "px");
-    grid.css("left", $etchasketchPosition.left + "px");
+    $grid.css("height", $etchasketch.css("height"));
+    $grid.css("width", $etchasketch.css("width"));
+    $grid.css("top", $etchasketchPosition.top + "px");
+    $grid.css("left", $etchasketchPosition.left + "px");
 
 }
