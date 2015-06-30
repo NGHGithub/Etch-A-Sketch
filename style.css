@@ -58,6 +58,10 @@ html, body {
     background-color: #000;
 }
 
+.trail {
+    background-color: #000;
+}
+
 #buttonContainer {
     position: absolute;
     top: 20px;

@@ -50,6 +50,7 @@ function resetGrid() {
 
 function rainbow() {
     $('.grid').unbind('mouseenter');
+    $('.grid').unbind('mouseleave');
 
     $('.grid').mouseenter(function () {
         var r = parseInt(Math.random() * 256);
@@ -63,6 +64,8 @@ function rainbow() {
 
 function black() {
     $('.grid').unbind('mouseenter');
+    $('.grid').unbind('mouseleave');
+
     $('.grid').mouseenter(function () {
          $(this).addClass('black');
     });
@@ -70,6 +73,8 @@ function black() {
 
 function faded() {
     $('.grid').unbind('mouseenter');
+    $('.grid').unbind('mouseleave');
+
     $('.grid').mouseenter(function () {
         if($(this).hasClass("faded")) {
             var newAlpha = parseFloat($(this).attr("alpha")) + .1;
@@ -84,10 +89,37 @@ function faded() {
     });
 }
 
+function trails() {
+    $('.grid').unbind('mouseenter');
+    $('.grid').unbind('mouseleave');
+
+    $('.grid').mouseenter(function () {
+        $(this).addClass('trail');
+    });
+
+    $('.grid').mouseleave(function () {
+
+        if(!($(this).hasClass("black")) && !($(this).hasClass("rainbow")) && !($(this).hasClass("faded"))) {
+            $(this).fadeTo(500, 0, function () {
+                $(this).removeClass("trail");
+                $(this).css("opacity", "1");
+            });
+        }
+
+        else {
+            $(this).removeClass("trail");
+        }
+
+    });
+}
+
 function eraser() {
     $('.grid').unbind('mouseenter');
+    $('.grid').unbind('mouseleave');
+
     $('.grid').mouseenter(function () {
-         $(this).removeClass('colored');
+         $(this).removeClass('black');
+         $(this).removeClass('faded');
          $(this).css('background-color', '');
     });
 }
